@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//home/**)",
+      "Edit(dev-docs/**)",
+      "Write(dev-docs/**)"
+    ]
+  }
+}
