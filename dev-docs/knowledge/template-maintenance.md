@@ -31,6 +31,7 @@ description: このテンプレート自体（dev-docs/ の rules・flows・know
 | ディレクトリ名（dev-docs/ 等） | ほぼ全ファイル。`grep -r "dev-docs" .claude/ AGENTS.md CLAUDE.md README.md dev-docs/` で洗い出す。`docs/` はユーザー向け領域なのでテンプレートから参照しない |
 | 絶対ルール・履歴参照ルール | AGENTS.md（要約）と rules/ 詳細の**両方**（2層構造を保つ） |
 | 手順書の表記規約 | flows/README.md、影響する flows 全部 |
+| サブエージェント・並列実行の規約 | rules/implementation.md（並列規約）・rules/workflow.md（全フェーズ方針）、flows/implement.md・review.md、flows/README.md（表記）、AGENTS.md（ルール11）、CLAUDE.md（Agent ツール対応）、README |
 
 変更前に `grep -r "変更するキーワード" .claude/ dev-docs/ AGENTS.md CLAUDE.md README.md` で参照箇所を洗い出すこと。
 
