@@ -1,6 +1,6 @@
 ---
 description: レビュー待ちの成果物（仕様・タスク・実装）を人間として承認し、status を進める
-argument-hint: <spec ディレクトリ名（例: 003-user-auth）。省略時はレビュー待ちが1件ならそれ>
+argument-hint: <spec ディレクトリ名（例: 003-user-auth）。省略時はレビュー待ちが1件ならそれ。末尾に stop を付けると承認後に自動継続しない>
 ---
 
 引数: $ARGUMENTS
