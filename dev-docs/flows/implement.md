@@ -55,7 +55,7 @@ dev-docs/knowledge/ から以下を読み込んでから作業する:
    - プロジェクト全体のテスト・Lint・ビルドを実行して通ることを確認する
    - tasks.md の `status` を `done` に更新する
    - Git 管理下なら実装 + tasks.md の最終状態を **1コミット**にまとめる（`[NNN-slug] 実装（フェーズ1〜N）`）
-   - 「実装が完了しました。`/review` でレビュー資料を作成します」と伝えて `/review` の手順に進む
+   - 「実装が完了しました。`/aidd-review` でレビュー資料を作成します」と伝えて `/aidd-review` の手順に進む
 
 ## 並列実装（任意。dev-docs/rules/implementation.md の並列規約に従う）
 

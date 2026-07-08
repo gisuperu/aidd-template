@@ -33,23 +33,24 @@
 6. **現行ループ以外の `dev-docs/specs/NNN-*` フォルダは、人間の承認なしに参照・参考にしない。** 過去の仕様書は履歴であり、現在のコードベースと食い違っている可能性がある。現状把握は**コード本体と `dev-docs/vision.md`（ビジョン）**から行う。
 7. **ビジョン（dev-docs/vision.md）は「目指す形」の大域合意。** 作業がビジョンとズレていると気づいたら人間に確認する（spec 側を直すかビジョンを更新するかは人間が決める）。ビジョンを人間の承認なしに書き換えない。
 8. **規定された操作は下記の対応する手順書に従い、手順書にない運用を即興で作らない。**
-9. **ドキュメントの真実はコードとテスト。** `dev-docs/current-spec.md` は /docs で再生成する生成物であり、手で編集しない。`docs/` はプロジェクトのユーザー向けドキュメント領域であり、このテンプレートは使用しない。
+9. **ドキュメントの真実はコードとテスト。** `dev-docs/current-spec.md` は /aidd-docs で再生成する生成物であり、手で編集しない。`docs/` はプロジェクトのユーザー向けドキュメント領域であり、このテンプレートは使用しない。
 10. **各手順書の冒頭に指定された知識ファイル（`dev-docs/knowledge/`）を読み込んでから作業する。** 知識ファイルはフェーズごとのチェックリスト・アンチパターン集であり、実行モデル・エージェントによらず品質を揃えるためのもの。
 11. **サブエージェントによる並列化は許可**（読み取り専用の調査・検証はどのフェーズでも自由。書き込みを伴う実装の並列化は `dev-docs/rules/implementation.md` の並列規約に従う）。ただし**人間との接点（承認・確認・レビュー依頼）と状態ファイル（tasks.md・vision.md・status）の更新・コミットは主エージェントのみ**が行い、委任時はルールの制約を指示文に含める。
 
 ## 操作と手順書の対応
 
-人間が `/spec 〜` のように操作を指示したら、対応する手順書に従うこと（Claude Code ではスラッシュコマンドが自動で対応する）。表記規約は `dev-docs/flows/README.md`。
+人間が `/aidd-spec 〜` のように操作を指示したら、対応する手順書に従うこと（Claude Code ではスラッシュコマンドが自動で対応する）。表記規約は `dev-docs/flows/README.md`。
+コマンド名の `aidd-` プレフィックスは、各エージェント組み込みのコマンド（/review /status /docs 等）との衝突を避けるためのもの。手順書ファイル名にはプレフィックスを付けない。
 
 | 操作 | 手順書 | 内容 |
 |---|---|---|
-| /design | dev-docs/flows/design.md | ビジョン（大域方針）の検討・更新 |
-| /spec | dev-docs/flows/spec.md | 仕様書ドラフト作成 → レビュー依頼 |
-| /tasks | dev-docs/flows/tasks.md | TDD 形式のタスク分解 → レビュー依頼 |
-| /implement | dev-docs/flows/implement.md | フェーズ0（人間承認枠）→ 自律実装 |
-| /review | dev-docs/flows/review.md | 実装レビュー資料の作成 → レビュー依頼 |
-| /approve | dev-docs/flows/approve.md | 承認ゲートの通過（人間が実行） |
-| /check | dev-docs/flows/check.md | 人間の細かい修正をレビュー |
-| /status | dev-docs/flows/status.md | 進捗・ビジョン実現度の一覧 |
-| /docs | dev-docs/flows/docs.md | 現在仕様ドキュメントの再生成 |
-| /docs-fix | dev-docs/flows/docs-fix.md | 現在仕様への指摘対応 |
+| /aidd-design | dev-docs/flows/design.md | ビジョン（大域方針）の検討・更新 |
+| /aidd-spec | dev-docs/flows/spec.md | 仕様書ドラフト作成 → レビュー依頼 |
+| /aidd-tasks | dev-docs/flows/tasks.md | TDD 形式のタスク分解 → レビュー依頼 |
+| /aidd-implement | dev-docs/flows/implement.md | フェーズ0（人間承認枠）→ 自律実装 |
+| /aidd-review | dev-docs/flows/review.md | 実装レビュー資料の作成 → レビュー依頼 |
+| /aidd-approve | dev-docs/flows/approve.md | 承認ゲートの通過（人間が実行） |
+| /aidd-check | dev-docs/flows/check.md | 人間の細かい修正をレビュー |
+| /aidd-status | dev-docs/flows/status.md | 進捗・ビジョン実現度の一覧 |
+| /aidd-docs | dev-docs/flows/docs.md | 現在仕様ドキュメントの再生成 |
+| /aidd-docs-fix | dev-docs/flows/docs-fix.md | 現在仕様への指摘対応 |

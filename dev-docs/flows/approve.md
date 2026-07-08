@@ -11,11 +11,11 @@
 
    | 現在の状態 | 処理 | 承認後の既定動作 |
    |---|---|---|
-   | spec.md が `draft` | spec.md を `approved` に（`approved:` に日付） | 続けて **/tasks のフロー**を実行する（タスクリスト作成→レビュー依頼で停止） |
-   | tasks.md が `draft`（spec は approved） | tasks.md を `approved` に | 続けて **/implement のフロー**を実行する（人間が同席しているこのタイミングでフェーズ0から開始する） |
-   | 実装レビュー提示済み（tasks が `done`） | spec.md を `done` に | **/review の「承認後の後処理」**（ビジョン実現の記録・current-spec.md の再生成・PR 作成の提案）を実行する |
+   | spec.md が `draft` | spec.md を `approved` に（`approved:` に日付） | 続けて **/aidd-tasks のフロー**を実行する（タスクリスト作成→レビュー依頼で停止） |
+   | tasks.md が `draft`（spec は approved） | tasks.md を `approved` に | 続けて **/aidd-implement のフロー**を実行する（人間が同席しているこのタイミングでフェーズ0から開始する） |
+   | 実装レビュー提示済み（tasks が `done`） | spec.md を `done` に | **/aidd-review の「承認後の後処理」**（ビジョン実現の記録・current-spec.md の再生成・PR 作成の提案）を実行する |
 
-4. **停止オプション**: 引数に `stop` が含まれる場合（例: `/approve 001-todo-cli stop`）は自動継続せず、status 更新と次アクションの案内だけで停止する。
+4. **停止オプション**: 引数に `stop` が含まれる場合（例: `/aidd-approve 001-todo-cli stop`）は自動継続せず、status 更新と次アクションの案内だけで停止する。
 5. 承認できる状態のものがなければ、現在の状態と次に必要なアクション（誰が何をすべきか）を伝える。
 
 ## 禁止事項

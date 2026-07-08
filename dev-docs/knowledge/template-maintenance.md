@@ -23,11 +23,11 @@ description: このテンプレート自体（dev-docs/ の rules・flows・know
 | チェックボックス・実装中マーカーの表記 | rules/implementation.md、_template/tasks.md、flows/implement.md・status.md、README |
 | フェーズ構成（フェーズ0、[RED]/[GREEN] 等） | rules/implementation.md、_template/tasks.md、flows/tasks.md・implement.md、README、knowledge/tdd-antipatterns.md |
 | spec の§構成 | _template/spec.md、flows/spec.md、_template/tasks.md（§参照例）、knowledge/spec-writing.md |
-| 操作（コマンド）の追加・削除・改名 | flows/ 本体 + `.claude/commands/` ラッパー + **AGENTS.md の対応表** + rules/workflow.md（フロー図）+ README（コマンド一覧） |
+| 操作（コマンド）の追加・削除・改名 | flows/ 本体 + `.claude/commands/` ラッパー + **AGENTS.md の対応表** + rules/workflow.md（フロー図）+ README（コマンド一覧）。コマンド名はエージェント組み込みコマンドとの衝突を避けるため `aidd-` プレフィックスを付ける（flows/ のファイル名には付けない） |
 | 知識ファイルの追加・削除・改名 | knowledge/ 本体 + `.claude/skills/` ローダー + 参照している flows の読み込み指示 + README（知識一覧）+（相互参照している他の知識ファイル） |
 | ビジョン関連（vision.md の構成・整合ルール・実現の記録） | dev-docs/vision.md、rules/workflow.md、flows/design.md・spec.md・implement.md・check.md・review.md（承認後の記録）・status.md（実現度集計）、_template/spec.md（整合欄）、knowledge/review-perspectives.md、README |
-| ドキュメント生成（current-spec.md、/docs、/docs-fix） | flows/docs.md・docs-fix.md・review.md・status.md、rules/workflow.md、AGENTS.md、README |
-| 承認経路（/approve、status 遷移の文言） | flows/approve.md・spec.md・tasks.md・review.md・status.md、rules/workflow.md、AGENTS.md、README（コマンド一覧・承認の仕組み） |
+| ドキュメント生成（current-spec.md、/aidd-docs、/aidd-docs-fix） | flows/docs.md・docs-fix.md・review.md・status.md、rules/workflow.md、AGENTS.md、README |
+| 承認経路（/aidd-approve、status 遷移の文言） | flows/approve.md・spec.md・tasks.md・review.md・status.md、rules/workflow.md、AGENTS.md、README（コマンド一覧・承認の仕組み） |
 | ディレクトリ名（dev-docs/ 等） | ほぼ全ファイル。`grep -r "dev-docs" .claude/ AGENTS.md CLAUDE.md README.md dev-docs/` で洗い出す。`docs/` はユーザー向け領域なのでテンプレートから参照しない |
 | 絶対ルール・履歴参照ルール | AGENTS.md（要約）と rules/ 詳細の**両方**（2層構造を保つ） |
 | 手順書の表記規約 | flows/README.md、影響する flows 全部 |
@@ -38,7 +38,7 @@ description: このテンプレート自体（dev-docs/ の rules・flows・know
 ## テンプレートの設計原則（変更時に壊さないこと）
 
 1. **AGENTS.md は要約、dev-docs/rules/ が詳細**の2層構造。エントリポイントを肥大化させない
-2. **各手順書は必ず「停止点」を持つ**: /spec /tasks /review は人間のレビュー待ちで終わる。停止点を消す変更はループの目的を壊す
+2. **各手順書は必ず「停止点」を持つ**: /aidd-spec /aidd-tasks /aidd-review は人間のレビュー待ちで終わる。停止点を消す変更はループの目的を壊す
 3. **承認ゲートを迂回する便利機能を足さない**（「一括承認」「自動 approve」等は追加しない）
 4. **知識ファイルは言語非依存の知識のみ**: PEP8 などの言語別スタイル、特定フレームワークの流儀、デザインのトレンドは時流で変わるため**テンプレートに入れない**。それらはプロジェクト側で用意する（AGENTS.md のプロジェクト概要、またはプロジェクト固有の知識ファイルとして追加）
 5. **tasks.md が進捗の唯一の真実**という前提を崩さない（進捗を別の場所にも持たせない）
@@ -46,7 +46,7 @@ description: このテンプレート自体（dev-docs/ の rules・flows・know
 
 ## テンプレートの更新フロー
 
-テンプレート自体の変更も、規模が大きければこのループ（/spec → /review）に乗せてよい。軽微な変更は直接編集で構わないが、必ず:
+テンプレート自体の変更も、規模が大きければこのループ（/aidd-spec → /aidd-review）に乗せてよい。軽微な変更は直接編集で構わないが、必ず:
 
 1. 一貫性マトリクスで影響ファイルを列挙して全部更新する
 2. README の説明・ディレクトリ構成図と AGENTS.md の対応表を同期する
