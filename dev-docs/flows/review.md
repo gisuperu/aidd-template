@@ -5,7 +5,7 @@
 
 ## 事前準備: 知識ファイルの読み込み
 
-dev-docs/knowledge/ から `review-perspectives`（レビュー観点チェックリスト）を読み込んでから作業する。セキュリティに関わる変更を含む場合は `security-practices` も読み込む。
+dev-docs/knowledge/ から `review-perspectives`（レビュー観点チェックリスト）を読み込んでから作業する。セキュリティに関わる変更を含む場合は `security-practices` も読み込む。観点別の並列レビューをサブエージェントに委任する場合は `subagent-orchestration` も読み込む。
 
 ## 手順
 
