@@ -2,8 +2,10 @@
   "permissions": {
     "allow": [
       "Read(//home/**)",
-      "Edit(dev-docs/**)",
-      "Write(dev-docs/**)"
+      "Edit(.aidd-docs/**)",
+      "Write(.aidd-docs/**)",
+      "Edit(docs/current-spec.md)",
+      "Write(docs/current-spec.md)"
     ]
   }
 }

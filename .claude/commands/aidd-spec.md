@@ -5,4 +5,4 @@ argument-hint: <機能の要件・やりたいこと>
 
 引数: $ARGUMENTS
 
-`dev-docs/flows/spec.md` の手順に従って実行せよ。手順内の表記規約（知識ファイルの読み込み方・人間への確認方法）は `dev-docs/flows/README.md` を参照。
+`.aidd-docs/flows/spec.md` の手順に従って実行せよ。手順内の表記規約（知識ファイルの読み込み方・人間への確認方法）は `.aidd-docs/flows/README.md` を参照。

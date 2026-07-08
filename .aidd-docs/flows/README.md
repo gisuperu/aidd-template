@@ -8,7 +8,7 @@
 | 手順書内の表記 | 意味 |
 |---|---|
 | （コマンド引数） | ラッパーから渡される入力（要件文・ループ名・指摘内容など）。無ければ手順書の省略時ルールに従う |
-| 知識ファイル / `ccsdd` などの名前 / 「X スキル」 | `dev-docs/knowledge/<名前>.md` のこと。指示されたら作業前にファイル読み込み機能で読むこと（Claude Code では `.claude/skills/` の同名スキル経由でも可） |
+| 知識ファイル / `ccsdd` などの名前 / 「X スキル」 | `.aidd-docs/knowledge/<名前>.md` のこと。指示されたら作業前にファイル読み込み機能で読むこと（Claude Code では `.claude/skills/` の同名スキル経由でも可） |
 | AskUserQuestion | 人間に選択肢を提示して選ばせる操作。Claude Code では AskUserQuestion ツール、他エージェントでは選択肢を列挙して返答を待つ |
 | Read / Grep などのツール名 | Claude Code のツール名。他エージェントは同等機能で代替する |
 | サブエージェント / 作業者 | 作業を委任する補助エージェント。Claude Code では Agent ツール（読み取り専用の調査は Explore、実装は general-purpose を worktree 分離で）。対応機能がないエージェントは逐次実行にフォールバックする |

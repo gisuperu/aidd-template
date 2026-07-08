@@ -5,11 +5,11 @@
 
 ## 事前準備: 知識ファイルの読み込み
 
-dev-docs/knowledge/ から `ccsdd`（タスク粒度の基準）と `tdd-antipatterns`（テストケースの洗い出し手法）を読み込んでから作業する。
+.aidd-docs/knowledge/ から `ccsdd`（タスク粒度の基準）と `tdd-antipatterns`（テストケースの洗い出し手法）を読み込んでから作業する。
 
 ## 手順
 
-1. **前提確認**: 対象の `dev-docs/specs/NNN-slug/spec.md` を読む。
+1. **前提確認**: 対象の `.aidd-docs/specs/NNN-slug/spec.md` を読む。
    - 引数が省略された場合は `status: approved` かつ tasks.md 未作成の最新仕様を対象にする。
    - `status` が `approved` でなければ**ここで停止**し、先に仕様レビューが必要である旨を人間に伝える。
 2. **フェーズ0の作成（環境変更・人間承認枠）**: spec.md の「環境変更・依存追加」セクションから、実行コマンドを1つ1タスクとして「フェーズ0【人間承認枠】」に列挙する。環境変更が「なし」ならフェーズ0は「なし」と書く。
@@ -20,7 +20,7 @@ dev-docs/knowledge/ から `ccsdd`（タスク粒度の基準）と `tdd-antipat
    - **[GREEN] 実装**: [RED] のテストを通す実装。検証は「対応テスト + 既存テスト全パス」
    - **[REFACTOR]**: 必要な場合のみ。検証は「全テストが通ったまま」
    - その他の基準: 1タスク = 1コミット粒度 / 各タスクに spec の §X.X を紐付け / 依存順に並べ、機能単位ごとにフェーズでグルーピング
-4. **タスクリスト作成**: `dev-docs/specs/_template/tasks.md` をベースに `dev-docs/specs/NNN-slug/tasks.md` を作成する（`status: draft`、`progress: 0/総数`）。
+4. **タスクリスト作成**: `.aidd-docs/specs/_template/tasks.md` をベースに `.aidd-docs/specs/NNN-slug/tasks.md` を作成する（`status: draft`、`progress: 0/総数`）。
 5. **レビュー依頼**: 最後に以下を人間に提示して**作業を止める**:
    - タスク総数と全体の流れ（フェーズ単位のサマリ）
    - フェーズ0（人間承認枠）で実行するコマンドの一覧
