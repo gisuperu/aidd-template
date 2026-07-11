@@ -36,3 +36,4 @@
 - 実装を始めること
 - 人間の承認を待たずに `/aidd-tasks` へ進むこと
 - `status` を勝手に `approved` にすること
+- `status: draft` の spec.md をコミットすること（コミットは承認後、`.aidd-docs/rules/implementation.md` の「コミットの粒度」に従いフェーズ0または実装のコミットに含める）

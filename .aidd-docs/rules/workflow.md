@@ -53,7 +53,7 @@ spec.md / tasks.md の frontmatter にある `status` が唯一の真実:
 - 中身: `spec.md`（仕様書）と `tasks.md`（タスクリスト）
 - テンプレート: `.aidd-docs/specs/_template/` をコピーして使う
 - **spec 作成から review 完了までの1ループが1つの PR の単位**。Git 管理下では:
-  - `/aidd-spec` 開始時にブランチ `spec/NNN-slug` を作成し、以降このループの作業（spec.md / tasks.md / 実装）はすべてこのブランチにコミットする
+  - `/aidd-spec` 開始時にブランチ `spec/NNN-slug` を作成し、以降このループの作業（spec.md / tasks.md / 実装）はすべてこのブランチにコミットする。ただし **`status: draft` の spec.md / tasks.md はコミットしない**（コミットに含めるのは承認後。回数・タイミングは `.aidd-docs/rules/implementation.md` の「コミットの粒度」に従う）
   - `/aidd-review` で人間が承認したら PR の作成を提案する（spec.md へのリンクとレビュー資料を PR 本文に含める）
 
 ## ビジョン（.aidd-docs/vision.md）と spec ループの関係
