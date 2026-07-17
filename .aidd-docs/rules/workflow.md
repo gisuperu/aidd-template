@@ -3,7 +3,7 @@
 ## 全体フロー
 
 ```
-（別枠・随時）/aidd-design ── ビジョン（.aidd-docs/vision.md）を対話で固める・更新する
+（別枠・随時）/aidd-vision ── ビジョン（.aidd-docs/vision.md）を対話で固める・更新する
                         ※ ループの外側。具体の決定は「/aidd-spec への引き継ぎ」として渡す
 （別枠・随時）/aidd-check ── 人間が直接行った細かい修正を Claude がレビューする
                         ※ spec ループを使うほどでもない変更向け。spec/tasks は作らない
@@ -15,6 +15,11 @@
 Claude: /aidd-spec ── 仕様書ドラフト作成（.aidd-docs/specs/NNN-slug/spec.md）
   ↓
 人間: 仕様レビュー ──修正指示──→ Claudeが仕様を修正（ループ）
+  ↓ 「承認」（設計フェーズの要否 design: required / skip もここで確定）
+（design: required のループのみ）
+Claude: /aidd-design ── 設計書ドラフト作成（.aidd-docs/specs/NNN-slug/design.md）
+  ↓
+人間: 設計レビュー ──修正指示──→ Claudeが設計を修正（ループ）
   ↓ 「承認」
 Claude: /aidd-tasks ── タスクリスト作成（.aidd-docs/specs/NNN-slug/tasks.md）
   ↓
@@ -31,7 +36,7 @@ Claude: /aidd-review ── 実装レビュー資料を作成
 
 ## ステータス管理
 
-spec.md / tasks.md の frontmatter にある `status` が唯一の真実:
+spec.md / design.md / tasks.md の frontmatter にある `status` が唯一の真実:
 
 | status | 意味 |
 |---|---|
@@ -50,19 +55,29 @@ spec.md / tasks.md の frontmatter にある `status` が唯一の真実:
 ## 仕様書の配置と「1ループ = 1ブランチ = 1PR」
 
 - 1機能 = 1ディレクトリ: `.aidd-docs/specs/NNN-短いスラッグ/`（NNN は 001 からの連番）
-- 中身: `spec.md`（仕様書）と `tasks.md`（タスクリスト）
+- 中身: `spec.md`（仕様書）、`design.md`（設計書。`design: required` のループのみ）、`tasks.md`（タスクリスト）
 - テンプレート: `.aidd-docs/specs/_template/` をコピーして使う
 - **spec 作成から review 完了までの1ループが1つの PR の単位**。Git 管理下では:
-  - `/aidd-spec` 開始時にブランチ `spec/NNN-slug` を作成し、以降このループの作業（spec.md / tasks.md / 実装）はすべてこのブランチにコミットする。ただし **`status: draft` の spec.md / tasks.md はコミットしない**（コミットに含めるのは承認後。回数・タイミングは `.aidd-docs/rules/implementation.md` の「コミットの粒度」に従う）
+  - `/aidd-spec` 開始時にブランチ `spec/NNN-slug` を作成し、以降このループの作業（spec.md / design.md / tasks.md / 実装）はすべてこのブランチにコミットする。ただし **`status: draft` の spec.md / design.md / tasks.md はコミットしない**（コミットに含めるのは承認後。回数・タイミングは `.aidd-docs/rules/implementation.md` の「コミットの粒度」に従う）
   - `/aidd-review` で人間が承認したら PR の作成を提案する（spec.md へのリンクとレビュー資料を PR 本文に含める）
+
+## 設計フェーズ（/aidd-design・条件付き）
+
+仕様（振る舞い・what）と設計（構造・how）は変更頻度が違う。仕様は人間との対話で収束したら安定するが、設計は実装が進むと正当な理由で変わりうる。そのため構造の検討が必要なループでは、spec 承認後・タスク分解前に設計フェーズを挟む:
+
+- **要否は spec.md の frontmatter `design:`（`required` / `skip`）で管理する**。/aidd-spec が判定基準（新モジュールの追加・新しいデータ構造・外部インターフェースの新設など。詳細は `.aidd-docs/flows/spec.md`）に沿って提案し、**人間が仕様承認までに確定する**
+- **責任分界**: spec.md には振る舞いを、design.md には構造（モジュール構成・データ構造・インターフェース・主要フロー。§D 番号付き）を書く。振る舞いの決定を design.md に書かない。設計中に仕様の不足・矛盾に気づいたら、design 側で補わず人間に spec.md の修正を提案する
+- **振る舞いが変わらない設計変更は design.md の修正＋再承認のみ**で行い、承認済みの spec.md を開き直さない。振る舞いも変わる場合は spec.md の修正が先
+- design.md も `status`（draft → approved → done）を持ち、承認ゲートを越えられるのは人間のみ（spec / tasks と同じ）
+- `design: skip` のループでは従来どおり spec の「§5 技術方針」が設計の置き場になる
 
 ## ビジョン（.aidd-docs/vision.md）と spec ループの関係
 
-`.aidd-docs/vision.md` は /aidd-design で固める「目指す形」の大域合意。**生きたドキュメント**であり、specs 履歴と違って**全ループから常に参照してよい**（現状把握は「コード本体 + ビジョン」から行う）。
+`.aidd-docs/vision.md` は /aidd-vision で固める「目指す形」の大域合意。**生きたドキュメント**であり、specs 履歴と違って**全ループから常に参照してよい**（現状把握は「コード本体 + ビジョン」から行う）。
 
 - **/aidd-spec**: 要件をビジョンと照合し、仕様書に「ビジョンとの整合」を1〜2行記載する。ズレる場合は仕様書を書く前に人間に確認する
 - **/aidd-implement /aidd-review /aidd-check**: 作業中にビジョンとの乖離に気づいたら人間に確認する
-- ズレたときの人間の判断は2択: **(a) 今回の spec 側をビジョンに合わせて直す** / **(b) ビジョン自体を更新する**（/aidd-design で対話するか、軽微なら直接更新案を提示して承認を得る）
+- ズレたときの人間の判断は2択: **(a) 今回の spec 側をビジョンに合わせて直す** / **(b) ビジョン自体を更新する**（/aidd-vision で対話するか、軽微なら直接更新案を提示して承認を得る）
 - ビジョンは具体になりすぎない抽象度（構成要素・原則・優先順位）を保つ。具体の判断基準が必要なら spec に書く
 - ビジョンが未記入の間は整合チェックをスキップしてよい
 - **実現度の記録**: ループ完了（/aidd-review 承認）ごとに、vision.md の「実現の記録」へ「どのビジョン項目にどれだけ近づいたか」を1行追記する。この欄は事実の記録なので追記に承認は不要（/aidd-status が項目別に集計し、実現度として可視化する）
@@ -101,6 +116,6 @@ spec.md / tasks.md の frontmatter にある `status` が唯一の真実:
 
 ## レビュー待ちで停止するルール
 
-`/aidd-spec` `/aidd-tasks` `/aidd-review` の各コマンドの最後では、**必ず作業を止めて人間のレビューを待つ**。
+`/aidd-spec` `/aidd-design` `/aidd-tasks` `/aidd-review` の各コマンドの最後では、**必ず作業を止めて人間のレビューを待つ**。
 「続けて実装します」のように勝手に次の段階へ進んではいけない。
 レビューを依頼するときは、レビューしてほしいポイント（特に判断が分かれる箇所）を箇条書きで示すこと。

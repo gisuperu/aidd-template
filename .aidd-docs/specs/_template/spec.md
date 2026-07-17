@@ -2,6 +2,7 @@
 status: draft   # draft → approved → done
 created: YYYY-MM-DD
 approved:       # 人間が承認した日付
+design: skip    # skip / required — 設計フェーズ（design.md）の要否。/aidd-spec が判定基準から提案し、人間が仕様承認までに確定する
 ---
 
 # 仕様書: <機能名>
@@ -40,7 +41,8 @@ approved:       # 人間が承認した日付
 
 ## 5. 技術方針
 
-<!-- 使う技術・アーキテクチャ・データ構造・既存コードとの関係。ファイルパスを具体的に -->
+<!-- 使う技術・アーキテクチャ・データ構造・既存コードとの関係。ファイルパスを具体的に。
+     design: required のループでは方向性1〜2行にとどめ、構造の詳細は仕様承認後の design.md（設計フェーズ）で具体化する -->
 
 ## 6. 影響範囲
 

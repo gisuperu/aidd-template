@@ -25,7 +25,7 @@
 
 ## 絶対に守ること（要約）
 
-1. **人間の承認なしに実装を始めない。** 仕様（spec.md）とタスクリスト（tasks.md）の両方が `status: approved` になってから実装する。
+1. **人間の承認なしに実装を始めない。** 仕様（spec.md）とタスクリスト（tasks.md）— 設計フェーズを要するループ（spec の `design: required`）では設計書（design.md）も — がすべて `status: approved` になってから実装する。
 2. **実装中は必ず tasks.md のチェックボックスを更新する。** タスク着手時に「実装中」マーク、完了時に `[x]`。人間はこのファイルだけを見て進行状況を把握する。
 3. **仕様にない変更が必要になったら、作業を止めて人間に報告する。** 勝手に仕様を拡大解釈しない。
 4. **テスト駆動で実装する。** タスクは「テスト作成 → 実装 → リファクタ」の順に並んでおり、順序を入れ替えない。テストを弱めて通すことは禁止。
@@ -44,8 +44,9 @@
 
 | 操作 | 手順書 | 内容 |
 |---|---|---|
-| /aidd-design | .aidd-docs/flows/design.md | ビジョン（大域方針）の検討・更新 |
+| /aidd-vision | .aidd-docs/flows/vision.md | ビジョン（大域方針）の検討・更新 |
 | /aidd-spec | .aidd-docs/flows/spec.md | 仕様書ドラフト作成 → レビュー依頼 |
+| /aidd-design | .aidd-docs/flows/design.md | 設計書ドラフト作成 → レビュー依頼（spec が `design: required` のループのみ） |
 | /aidd-tasks | .aidd-docs/flows/tasks.md | TDD 形式のタスク分解 → レビュー依頼 |
 | /aidd-implement | .aidd-docs/flows/implement.md | フェーズ0（人間承認枠）→ 自律実装 |
 | /aidd-review | .aidd-docs/flows/review.md | 実装レビュー資料の作成 → レビュー依頼 |

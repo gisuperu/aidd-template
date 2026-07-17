@@ -23,9 +23,10 @@ description: このテンプレート自体（.aidd-docs/ の rules・flows・kn
 | チェックボックス・実装中マーカーの表記 | rules/implementation.md、_template/tasks.md、flows/implement.md・status.md、README |
 | フェーズ構成（フェーズ0、[RED]/[GREEN] 等） | rules/implementation.md、_template/tasks.md、flows/tasks.md・implement.md、README、knowledge/tdd-antipatterns.md |
 | spec の§構成 | _template/spec.md、flows/spec.md、_template/tasks.md（§参照例）、knowledge/spec-writing.md |
+| 設計フェーズ関連（design.md・`design:` 要否・§D） | _template/spec.md（frontmatter・§5）・_template/design.md、flows/spec.md・design.md・tasks.md・approve.md・status.md・implement.md・review.md、rules/workflow.md・implementation.md、AGENTS.md、README |
 | 操作（コマンド）の追加・削除・改名 | flows/ 本体 + `.claude/commands/` ラッパー + **AGENTS.md の対応表** + rules/workflow.md（フロー図）+ README（コマンド一覧）。コマンド名はエージェント組み込みコマンドとの衝突を避けるため `aidd-` プレフィックスを付ける（flows/ のファイル名には付けない） |
 | 知識ファイルの追加・削除・改名 | knowledge/ 本体 + `.claude/skills/` ローダー + 参照している flows の読み込み指示 + README（知識一覧）+（相互参照している他の知識ファイル） |
-| ビジョン関連（vision.md の構成・整合ルール・実現の記録） | .aidd-docs/vision.md、rules/workflow.md、flows/design.md・spec.md・implement.md・check.md・review.md（承認後の記録）・status.md（実現度集計）、_template/spec.md（整合欄）、knowledge/review-perspectives.md、README |
+| ビジョン関連（vision.md の構成・整合ルール・実現の記録） | .aidd-docs/vision.md、rules/workflow.md、flows/vision.md・spec.md・implement.md・check.md・review.md（承認後の記録）・status.md（実現度集計）、_template/spec.md（整合欄）、knowledge/review-perspectives.md、README |
 | ドキュメント生成（current-spec.md、/aidd-docs、/aidd-docs-fix） | flows/docs.md・docs-fix.md・review.md・status.md、rules/workflow.md、AGENTS.md、README |
 | 承認経路（/aidd-approve、status 遷移の文言） | flows/approve.md・spec.md・tasks.md・review.md・status.md、rules/workflow.md、AGENTS.md、README（コマンド一覧・承認の仕組み） |
 | ディレクトリ名（.aidd-docs/ 等） | ほぼ全ファイル。`grep -r ".aidd-docs" .claude/ AGENTS.md CLAUDE.md README.md .aidd-docs/` で洗い出す。開発用の資料は隠しディレクトリ `.aidd-docs/`、人間向けの生成物 `docs/current-spec.md` だけが `docs/`（ユーザー向け領域）にある |

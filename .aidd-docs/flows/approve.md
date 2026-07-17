@@ -5,21 +5,22 @@
 
 ## 手順
 
-1. **対象の特定**: 引数のループを対象にする。省略時はレビュー待ち（spec.md か tasks.md が `draft`、または実装レビュー提示済み）のループが1件だけならそれ。複数あれば一覧を提示して人間に選ばせる。
+1. **対象の特定**: 引数のループを対象にする。省略時はレビュー待ち（spec.md / design.md / tasks.md のいずれかが `draft`、または実装レビュー提示済み）のループが1件だけならそれ。複数あれば一覧を提示して人間に選ばせる。
 2. **承認内容の確認表示**: 何を承認するのかを1行で示す（例: 「003-user-auth の**仕様書**を approved にします」）。
 3. **段階に応じて status を進め、既定では次のフェーズへ自動継続する**（承認できるのは1段階だけ。自動継続した先のフローも必ず自身のレビュー依頼で停止するため、承認ゲートは維持される）:
 
    | 現在の状態 | 処理 | 承認後の既定動作 |
    |---|---|---|
-   | spec.md が `draft` | spec.md を `approved` に（`approved:` に日付） | 続けて **/aidd-tasks のフロー**を実行する（タスクリスト作成→レビュー依頼で停止） |
-   | tasks.md が `draft`（spec は approved） | tasks.md を `approved` に | 続けて **/aidd-implement のフロー**を実行する（人間が同席しているこのタイミングでフェーズ0から開始する） |
-   | 実装レビュー提示済み（tasks が `done`） | spec.md を `done` に | **/aidd-review の「承認後の後処理」**（ビジョン実現の記録・current-spec.md の再生成・PR 作成の提案）を実行する |
+   | spec.md が `draft` | spec.md を `approved` に（`approved:` に日付。frontmatter `design:` の値はこの承認で確定） | `design: required` なら続けて **/aidd-design のフロー**、`skip` なら **/aidd-tasks のフロー**を実行する（いずれも自身のレビュー依頼で停止） |
+   | design.md が `draft`（spec は approved） | design.md を `approved` に（`approved:` に日付） | 続けて **/aidd-tasks のフロー**を実行する（タスクリスト作成→レビュー依頼で停止） |
+   | tasks.md が `draft`（spec と、あれば design は approved） | tasks.md を `approved` に | 続けて **/aidd-implement のフロー**を実行する（人間が同席しているこのタイミングでフェーズ0から開始する） |
+   | 実装レビュー提示済み（tasks が `done`） | spec.md（design.md があればそれも）を `done` に | **/aidd-review の「承認後の後処理」**（ビジョン実現の記録・current-spec.md の再生成・PR 作成の提案）を実行する |
 
 4. **停止オプション**: 引数に `stop` が含まれる場合（例: `/aidd-approve 001-todo-cli stop`）は自動継続せず、status 更新と次アクションの案内だけで停止する。
 5. 承認できる状態のものがなければ、現在の状態と次に必要なアクション（誰が何をすべきか）を伝える。
 
 ## 禁止事項
 
-- 複数の段階をまとめて承認すること（spec と tasks を同時に approved にする等）
+- 複数の段階をまとめて承認すること（spec と design、spec と tasks を同時に approved にする等）
 - 自動継続した先のフローで、そのフローの停止点（レビュー依頼）を飛ばすこと
 - レビュー資料・成果物をまだ提示していない段階で承認を受け付けること（先に該当コマンドでレビュー依頼を出す）

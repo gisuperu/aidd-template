@@ -2,13 +2,13 @@
 `.aidd-docs/specs/` 配下の全仕様（`_template` を除く）について、進行状況を以下の表形式で報告せよ。**表示のみで、ファイルの変更や実装はしない。**
 
 ```markdown
-| 仕様 | spec | tasks | 進捗 | 現在のタスク |
-|---|---|---|---|---|
-| 001-xxx | approved | in-progress | 3/8 | 2.1 〇〇の実装 |
-| 002-yyy | draft | - | - | （仕様レビュー待ち） |
+| 仕様 | spec | design | tasks | 進捗 | 現在のタスク |
+|---|---|---|---|---|---|
+| 001-xxx | approved | approved | in-progress | 3/8 | 2.1 〇〇の実装 |
+| 002-yyy | draft | - | - | - | （仕様レビュー待ち） |
 ```
 
-- `spec` / `tasks` 列: 各ファイルの frontmatter `status`（tasks.md 未作成なら `-`）
+- `spec` / `design` / `tasks` 列: 各ファイルの frontmatter `status`（未作成なら `-`）。spec.md が `design: required` なのに design.md が未作成・未承認なら、「現在のタスク」列に設計フェーズ待ちである旨を書く
 - `進捗` 列: tasks.md の `progress`（チェックボックスの実数と食い違っていたら実数を正として報告し、frontmatter を修正する）
 - `現在のタスク` 列: 「🔄実装中」マークのあるタスク。なければ次のアクション（誰が何をすべきか）を書く
 

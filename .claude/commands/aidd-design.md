@@ -1,6 +1,6 @@
 ---
-description: 大域の実装・設計方針（ビジョン .aidd-docs/vision.md）を対話で固める・更新する。spec ループとは別枠で随時実行する
-argument-hint: <検討したいテーマ（例: 全体アーキテクチャ、認証基盤の方針、マルチテナント化）>
+description: 承認済み仕様の実装構造を設計書（design.md）に具体化し、人間のレビューを依頼する。spec が design: required のループで実行する条件付きフェーズ
+argument-hint: [ループ名（例: 001-user-auth。省略時は設計待ちの最新仕様）]
 ---
 
 引数: $ARGUMENTS

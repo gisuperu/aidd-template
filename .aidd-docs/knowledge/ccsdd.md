@@ -1,6 +1,6 @@
 ---
 name: ccsdd
-description: 仕様駆動開発（CC-SDD）の原則。/aidd-spec /aidd-tasks /aidd-implement /aidd-review のワークフローで判断に迷ったとき、各フェーズの目的と品質基準を確認するために読む。
+description: 仕様駆動開発（CC-SDD）の原則。/aidd-spec /aidd-design /aidd-tasks /aidd-implement /aidd-review のワークフローで判断に迷ったとき、各フェーズの目的と品質基準を確認するために読む。
 ---
 
 # CC-SDD（Claude Code Spec-Driven Development）の原則
@@ -20,8 +20,9 @@ description: 仕様駆動開発（CC-SDD）の原則。/aidd-spec /aidd-tasks /a
 
 | フェーズ | 成果物が満たすべき基準 |
 |---|---|
-| /aidd-spec | 各§が「〜の場合、〜する」形式でテスト可能。スコープ外と環境変更が明記されている |
-| /aidd-tasks | 全タスクが spec の§に紐付き、[RED]→[GREEN] 順で、検証方法を持つ |
+| /aidd-spec | 各§が「〜の場合、〜する」形式でテスト可能。スコープ外と環境変更が明記されている。設計フェーズの要否（design:）が理由付きで提案されている |
+| /aidd-design | 構造の決定が §D 単位でタスクから参照できる。振る舞いの決定を含まない。主要な代替案と採らなかった理由が書かれている |
+| /aidd-tasks | 全タスクが spec の§（design.md があれば §D も）に紐付き、[RED]→[GREEN] 順で、検証方法を持つ |
 | /aidd-implement | tasks.md が常に実態と一致。仕様外のことをしていない |
 | /aidd-review | 仕様との対応表に「⚠️差異」を隠していない。テスト結果を加工していない |
 
