@@ -1,8 +1,9 @@
 # プロジェクトルール
 
-プロジェクト概要・絶対ルール・操作の一覧はエージェント共通の @AGENTS.md にある。詳細ルールも読み込むこと:
+絶対ルール・操作の一覧はエージェント共通の @AGENTS.md に、プロジェクト固有の概要・スタック・ルールはプロジェクト層の @.aidd-docs/project/context.md にある。詳細ルールも読み込むこと:
 
 @AGENTS.md
+@.aidd-docs/project/context.md
 @.aidd-docs/rules/workflow.md
 @.aidd-docs/rules/implementation.md
 

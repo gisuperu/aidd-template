@@ -13,6 +13,15 @@ description: このテンプレート自体（.aidd-docs/ の rules・flows・kn
 - **アダプタ**（エージェント固有・薄い参照のみ）: `.claude/commands/*.md`（flows へのラッパー。frontmatter のみ固有情報）、`.claude/skills/*/SKILL.md`（knowledge へのローダー）、`CLAUDE.md`（AGENTS.md を @import）
 - **アダプタに本文を書いてはいけない**。内容の変更は必ず本体側で行う
 
+## テンプレート層とプロジェクト層（DI 的な分離）
+
+本体・アダプタ（＝**テンプレート層**）とは別に、プロジェクト固有の内容だけを持つ**プロジェクト層**がある:
+
+- **プロジェクト層** = `.aidd-docs/project/`（context.md: 毎セッション読み込まれる薄い索引 ／ knowledge/: 該当作業のときだけ読むオンデマンドの固有知識）、`.aidd-docs/vision.md`、`.aidd-docs/vision-notes/`、`.aidd-docs/specs/NNN-*`、`docs/`、README.md（採用後はプロジェクトのもの）、`.claude/settings.json`（初期値のみテンプレート提供）
+- context.md は常時トークンを消費するため**薄い索引**（概要・コマンド・常時ルール・知識の登録表）に保つ設計。この2段構え（常時=context.md／オンデマンド=project/knowledge/）を崩す変更をしない
+- テンプレート層はプロジェクト固有の内容を**参照はするが含まない**（CLAUDE.md の `@.aidd-docs/project/context.md`、AGENTS.md の「必読」参照が注入ポイント）。これにより、テンプレート更新は**テンプレート層のパスを丸ごと上書きするだけ**で取り込める
+- テンプレート層のファイルにプロジェクト固有の仕様・設定・規約を書き込む変更は、この分離を壊すため行わない（書く場所に迷ったら「テンプレート更新で消えてよい内容か？」で判定する）
+
 ## 一貫性マトリクス（何を変えたら、どこを更新するか）
 
 以下で rules/ = `.aidd-docs/rules/`、flows/ = `.aidd-docs/flows/`、knowledge/ = `.aidd-docs/knowledge/`、_template = `.aidd-docs/specs/_template/`。
@@ -32,6 +41,7 @@ description: このテンプレート自体（.aidd-docs/ の rules・flows・kn
 | ディレクトリ名（.aidd-docs/ 等） | ほぼ全ファイル。`grep -r ".aidd-docs" .claude/ AGENTS.md CLAUDE.md README.md .aidd-docs/` で洗い出す。開発用の資料は隠しディレクトリ `.aidd-docs/`、人間向けの生成物 `docs/current-spec.md` だけが `docs/`（ユーザー向け領域）にある |
 | 絶対ルール・履歴参照ルール | AGENTS.md（要約）と rules/ 詳細の**両方**（2層構造を保つ） |
 | 手順書の表記規約 | flows/README.md、影響する flows 全部 |
+| プロジェクト層の構成（.aidd-docs/project/ の場所・context.md の節構成） | .aidd-docs/project/context.md・project/knowledge/README.md、AGENTS.md（層の説明・必読参照）、CLAUDE.md（@import）、README（更新手順・ディレクトリ構成）、この知識ファイル |
 | サブエージェント・並列実行の規約 | rules/implementation.md（並列規約）・rules/workflow.md（全フェーズ方針）、flows/implement.md・review.md、flows/README.md（表記）、AGENTS.md（ルール11）、CLAUDE.md（Agent ツール対応）、README |
 
 変更前に `grep -r "変更するキーワード" .claude/ .aidd-docs/ AGENTS.md CLAUDE.md README.md` で参照箇所を洗い出すこと。
@@ -41,9 +51,10 @@ description: このテンプレート自体（.aidd-docs/ の rules・flows・kn
 1. **AGENTS.md は要約、.aidd-docs/rules/ が詳細**の2層構造。エントリポイントを肥大化させない
 2. **各手順書は必ず「停止点」を持つ**: /aidd-spec /aidd-tasks /aidd-review は人間のレビュー待ちで終わる。停止点を消す変更はループの目的を壊す
 3. **承認ゲートを迂回する便利機能を足さない**（「一括承認」「自動 approve」等は追加しない）
-4. **知識ファイルは言語非依存の知識のみ**: PEP8 などの言語別スタイル、特定フレームワークの流儀、デザインのトレンドは時流で変わるため**テンプレートに入れない**。それらはプロジェクト側で用意する（AGENTS.md のプロジェクト概要、またはプロジェクト固有の知識ファイルとして追加）
+4. **知識ファイルは言語非依存の知識のみ**: PEP8 などの言語別スタイル、特定フレームワークの流儀、デザインのトレンドは時流で変わるため**テンプレートに入れない**。それらはプロジェクト層（`.aidd-docs/project/context.md` または `.aidd-docs/project/knowledge/`）に置く
 5. **tasks.md が進捗の唯一の真実**という前提を崩さない（進捗を別の場所にも持たせない）
 6. **本体は .aidd-docs、エージェント固有ディレクトリは薄い参照のみ**を保つ。新しいエージェントへの対応は、そのエージェント向けのアダプタ（エントリファイル1枚＋必要ならコマンド定義）を足すだけで済む形を崩さない
+7. **テンプレート層とプロジェクト層を混ぜない**（DI 的な分離）: テンプレート層のファイルにプロジェクト固有の内容を書かず、プロジェクト層（`.aidd-docs/project/` 等）にワークフローの仕組みを書かない。テンプレート更新が「テンプレート層の上書きだけ」で完了する形を保つ
 
 ## テンプレートの更新フロー
 
