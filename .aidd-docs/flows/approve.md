@@ -3,20 +3,27 @@
 
 このコマンドは**人間が承認の意思を明示するためのもの**。Claude が実行を促すのはよいが、人間の入力なしに Claude が自発的に承認処理を行ってはならない（チャットで「承認」と明言された場合は、このコマンドと同じ手順で処理してよい）。
 
+## 事前準備: ルールの読み込み
+
+- `.aidd-docs/rules/workflow.md` — 条件付き（人間の返事が承認と言えるか・status の遷移で迷ったときだけ読む。読み分けの意味は `flows/README.md` の「ルールファイルの読み込み」を参照）
+
 ## 手順
 
 1. **対象の特定**: 引数のループを対象にする。省略時はレビュー待ち（spec.md / design.md / tasks.md のいずれかが `draft`、または実装レビュー提示済み）のループが1件だけならそれ。複数あれば一覧を提示して人間に選ばせる。
 2. **承認内容の確認表示**: 何を承認するのかを1行で示す（例: 「003-user-auth の**仕様書**を approved にします」）。
-3. **段階に応じて status を進め、既定では次のフェーズへ自動継続する**（承認できるのは1段階だけ。自動継続した先のフローも必ず自身のレビュー依頼で停止するため、承認ゲートは維持される）:
+3. **段階に応じて status を進める**（承認できるのは1段階だけ）。次フェーズへ自動継続するのは**軽い境界**だけで、**重い境界では停止して `/clear` を案内する**（自動継続した先のフローも必ず自身のレビュー依頼で停止するため、承認ゲートは維持される）:
 
    | 現在の状態 | 処理 | 承認後の既定動作 |
    |---|---|---|
-   | spec.md が `draft` | spec.md を `approved` に（`approved:` に日付。frontmatter `design:` の値はこの承認で確定） | `design: required` なら続けて **/aidd-design のフロー**、`skip` なら **/aidd-tasks のフロー**を実行する（いずれも自身のレビュー依頼で停止） |
-   | design.md が `draft`（spec は approved） | design.md を `approved` に（`approved:` に日付） | 続けて **/aidd-tasks のフロー**を実行する（タスクリスト作成→レビュー依頼で停止） |
-   | tasks.md が `draft`（spec と、あれば design は approved） | tasks.md を `approved` に | 続けて **/aidd-implement のフロー**を実行する（人間が同席しているこのタイミングでフェーズ0から開始する） |
+   | spec.md が `draft` | spec.md を `approved` に（`approved:` に日付。frontmatter `design:` の値はこの承認で確定） | **軽い境界**。`design: required` なら続けて **/aidd-design のフロー**、`skip` なら **/aidd-tasks のフロー**を実行する（いずれも自身のレビュー依頼で停止） |
+   | design.md が `draft`（spec は approved） | design.md を `approved` に（`approved:` に日付） | **軽い境界**。続けて **/aidd-tasks のフロー**を実行する（タスクリスト作成→レビュー依頼で停止） |
+   | tasks.md が `draft`（spec と、あれば design は approved） | tasks.md を `approved` に | **重い境界。自動継続しない。** `flows/README.md` の「重い境界」の書式で `/clear` → `/aidd-implement <ループ名>` を案内して停止する。フェーズ0（環境変更）があるループでは「clear 後に人間の同席が必要」である旨も添える |
    | 実装レビュー提示済み（tasks が `done`） | spec.md（design.md があればそれも）を `done` に | **/aidd-review の「承認後の後処理」**（ビジョン実現の記録・current-spec.md の再生成・PR 作成の提案）を実行する |
 
-4. **停止オプション**: 引数に `stop` が含まれる場合（例: `/aidd-approve 001-todo-cli stop`）は自動継続せず、status 更新と次アクションの案内だけで停止する。
+4. **継続の制御（引数）**:
+   - `stop`（例: `/aidd-approve 001-todo-cli stop`）: 軽い境界でも自動継続せず、status 更新と次アクションの案内だけで停止する
+   - `go`（例: `/aidd-approve 001-todo-cli go`）: 重い境界（tasks 承認）でも停止せず、そのまま **/aidd-implement のフロー**へ進む。人間がその場で実装まで走らせたいときに使う
+   - `stop` と `go` が同時に指定された場合は **`stop` を優先する**
 5. 承認できる状態のものがなければ、現在の状態と次に必要なアクション（誰が何をすべきか）を伝える。
 
 ## 禁止事項

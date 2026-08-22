@@ -9,7 +9,7 @@ description: このテンプレート自体（.aidd-docs/ の rules・flows・kn
 
 ## 本体とアダプタの構造（最初に理解すること）
 
-- **本体**（エージェント中立・内容はすべてここ）: `.aidd-docs/rules/`（ルール）、`.aidd-docs/flows/`（操作の手順書）、`.aidd-docs/knowledge/`（知識ファイル）、`AGENTS.md`（共通エントリポイント）
+- **本体**（エージェント中立・内容はすべてここ）: `.aidd-docs/rules/`（ルール）、`.aidd-docs/flows/`（操作の手順書）、`.aidd-docs/knowledge/`（知識ファイル）、`.aidd-docs/scripts/`（フック用スクリプトとそのテスト）、`AGENTS.md`（共通エントリポイント）
 - **アダプタ**（エージェント固有・薄い参照のみ）: `.claude/commands/*.md`（flows へのラッパー。frontmatter のみ固有情報）、`.claude/skills/*/SKILL.md`（knowledge へのローダー）、`CLAUDE.md`（AGENTS.md を @import）
 - **アダプタに本文を書いてはいけない**。内容の変更は必ず本体側で行う
 
@@ -42,7 +42,10 @@ description: このテンプレート自体（.aidd-docs/ の rules・flows・kn
 | 絶対ルール・履歴参照ルール | AGENTS.md（要約）と rules/ 詳細の**両方**（2層構造を保つ） |
 | 手順書の表記規約 | flows/README.md、影響する flows 全部 |
 | プロジェクト層の構成（.aidd-docs/project/ の場所・context.md の節構成） | .aidd-docs/project/context.md・project/knowledge/README.md、AGENTS.md（層の説明・必読参照）、CLAUDE.md（@import）、README（更新手順・ディレクトリ構成）、この知識ファイル |
-| サブエージェント・並列実行の規約 | rules/implementation.md（並列規約）・rules/workflow.md（全フェーズ方針）、flows/implement.md・review.md、flows/README.md（表記）、AGENTS.md（ルール11）、CLAUDE.md（Agent ツール対応）、README |
+| サブエージェント・並列実行の規約 | rules/implementation.md（並列規約）・rules/workflow.md（全フェーズ方針）、flows/implement.md・review.md、flows/README.md（表記）、AGENTS.md（ルール11）、CLAUDE.md（Agent ツール対応）、knowledge/subagent-orchestration.md、README |
+| フェーズ境界の運用（自動継続の範囲・`/clear` 案内・「次の一手」行） | flows/approve.md（承認後動作テーブル）・flows/implement.md（完了時）・停止点を持つ全 flows（spec・design・tasks・review）、flows/README.md（書式の定義はここ1箇所のみ）、rules/workflow.md（フロー図・承認後の自動継続）、`.claude/commands/aidd-approve.md`（argument-hint）、README（ワークフロー図・承認の仕組み・トークン運用） |
+| SessionStart フック・スクリプト（`.aidd-docs/scripts/`） | スクリプト本体とテスト（`session-context.sh` / `session-context.test.sh`）、`.claude/settings.json`（登録。プロジェクト層なので手動マージ）、CLAUDE.md（フックの説明）、README（ディレクトリ構成・トークン運用）。出力形式を変えるときは**テストを先に直す**（契約はテストが持つ） |
+| 常駐コンテキストの構成（`CLAUDE.md` の `@import`） | CLAUDE.md（`@import` は AGENTS.md と project/context.md の2本のみ）、AGENTS.md（詳細ルールの読み込みタイミング）、rules を読む全 flows の「事前準備」、flows/README.md（必須/条件付き/記載なしの意味）、README（トークン運用・ディレクトリ構成）。**ルールの読み分けを変えたら flows 側の記述と1対1で一致させる** |
 
 変更前に `grep -r "変更するキーワード" .claude/ .aidd-docs/ AGENTS.md CLAUDE.md README.md` で参照箇所を洗い出すこと。
 
@@ -54,7 +57,8 @@ description: このテンプレート自体（.aidd-docs/ の rules・flows・kn
 4. **知識ファイルは言語非依存の知識のみ**: PEP8 などの言語別スタイル、特定フレームワークの流儀、デザインのトレンドは時流で変わるため**テンプレートに入れない**。それらはプロジェクト層（`.aidd-docs/project/context.md` または `.aidd-docs/project/knowledge/`）に置く
 5. **tasks.md が進捗の唯一の真実**という前提を崩さない（進捗を別の場所にも持たせない）
 6. **本体は .aidd-docs、エージェント固有ディレクトリは薄い参照のみ**を保つ。新しいエージェントへの対応は、そのエージェント向けのアダプタ（エントリファイル1枚＋必要ならコマンド定義）を足すだけで済む形を崩さない
-7. **テンプレート層とプロジェクト層を混ぜない**（DI 的な分離）: テンプレート層のファイルにプロジェクト固有の内容を書かず、プロジェクト層（`.aidd-docs/project/` 等）にワークフローの仕組みを書かない。テンプレート更新が「テンプレート層の上書きだけ」で完了する形を保つ
+7. **節約のために承認ゲート・TDD の順序・進捗可視化を犠牲にしない**: トークン効率のための変更は「停止点を増やす」「常駐を減らす」「大きい出力を作業者側に留める」方向のみ許される。承認の省略・[RED] の省略・tasks.md 更新の間引きは、どれだけトークンを節約できても行わない
+8. **テンプレート層とプロジェクト層を混ぜない**（DI 的な分離）: テンプレート層のファイルにプロジェクト固有の内容を書かず、プロジェクト層（`.aidd-docs/project/` 等）にワークフローの仕組みを書かない。テンプレート更新が「テンプレート層の上書きだけ」で完了する形を保つ
 
 ## テンプレートの更新フロー
 
