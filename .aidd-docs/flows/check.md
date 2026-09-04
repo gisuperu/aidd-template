@@ -10,7 +10,7 @@ typo・文言修正、小さなバグ修正、設定値の調整、軽微なリ�
 
 ## 手順
 
-1. **知識の読み込み**: .aidd-docs/knowledge/ から `review-perspectives` を読み込む。変更内容に応じて `security-practices`（入力・認証・秘密情報まわり）、`tdd-antipatterns`（テストの変更を含むとき）も。
+1. **ルール・知識の読み込み**: ルールは `.aidd-docs/rules/workflow.md` を**条件付き**（ビジョンとの整合・`/aidd-spec` ループへ誘導すべきかで迷ったときだけ。読み分けの意味は `flows/README.md` 参照）。知識は .aidd-docs/knowledge/ から `review-perspectives` を読み込む。変更内容に応じて `security-practices`（入力・認証・秘密情報まわり）、`tdd-antipatterns`（テストの変更を含むとき）も。
 2. **対象の特定**: Git 管理下なら未コミットの変更（staged + unstaged）を diff で確認する。引数やチャットで対象の指定があればそれに従う。対象が特定できなければ人間に確認する。
 3. **意図の把握**: 変更の意図が diff から読み取れない場合のみ、人間に質問する（このフローでは人間が画面の前にいる前提でよい）。
 4. **レビュー**: 軽量版の観点で確認する:

@@ -7,5 +7,17 @@
       "Edit(docs/current-spec.md)",
       "Write(docs/current-spec.md)"
     ]
+  },
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PROJECT_DIR:-.}/.aidd-docs/scripts/session-context.sh\" 2>/dev/null || true"
+          }
+        ]
+      }
+    ]
   }
 }

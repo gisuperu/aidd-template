@@ -12,7 +12,7 @@
 
 ## 進め方
 
-1. **知識の読み込み**: .aidd-docs/knowledge/ から `spec-writing` を読み込む。テーマに応じて `infra-architecture`（構成）、`project-structure`（コード配置の方針）、`security-practices`（認証・データ保護）も。
+1. **ルール・知識の読み込み**: ルールは `.aidd-docs/rules/workflow.md` を**条件付き**（ビジョンと spec ループの関係・実現の記録の扱いで迷ったときだけ。読み分けの意味は `flows/README.md` 参照）。知識は .aidd-docs/knowledge/ から `spec-writing` を読み込む。テーマに応じて `infra-architecture`（構成）、`project-structure`（コード配置の方針）、`security-practices`（認証・データ保護）も。
 2. **現状把握**: 既存の `.aidd-docs/vision.md` とコード本体を読む（現行ループ以外の `.aidd-docs/specs/NNN-*` は読まない）。
 3. **大域の対話**: 以下のスタイルで進める:
    - **一度に扱う論点は1つ**。論点を積み残しリストにして順に潰す
